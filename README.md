@@ -63,7 +63,7 @@ Trigger it by setting the `redraw` property on the action to `true`;
 #### Example (Setup)
 
 ```js
-mport { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { redrawMiddleware } from 'mithril-redux';
 import rootReducer from './reducers';
 
@@ -73,3 +73,5 @@ export default function configureStore(initialState) {
   )(createStore);
   return createModifiedStore(rootReducer, initialState);
 ```
+
+See https://github.com/colinbate/mithril-redux-starter for a sample useage.
