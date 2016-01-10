@@ -29,7 +29,7 @@ export const connect = (selector, actions) => (Component) => {
         const actionKeys = Object.keys(actions);
         for (let k of actionKeys) {
           if (typeof actions[k] === 'function') {
-            actionMap[k] = (...args) => () => dispatch(actions[k](...args))
+            actionMap[k] = (...factoryArgs) => (...args) => dispatch(actions[k](...factoryArgs, ...args))
           }
         }
       }
