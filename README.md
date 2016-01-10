@@ -97,6 +97,6 @@ export default function configureStore(initialState) {
 
 ## Future Work (possibly separate packages)
 
-[] Integrate with `m.request` to get data into the store.
-[] Create some sort of middleware for promises which calls `m.startComputation`/`m.endComputation`
-[] Integrate with `m.route` for params and potentially more.
+* [ ] Integrate with `m.request` to get data into the store.
+* [ ] Create some sort of middleware for promises which calls `m.startComputation`/`m.endComputation`
+* [ ] Integrate with `m.route` for params and potentially more.
