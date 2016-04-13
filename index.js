@@ -25,9 +25,8 @@ export const connect = (selector, actions) => (Component) => {
       let actionMap = {};
       if (typeof actions === 'function') {
         actionMap = actions(dispatch);
-      } else if (typeof actions === 'object') {
-        const actionKeys = Object.keys(actions);
-        for (let k of actionKeys) {
+      } else if (typeof actions === 'object') {;
+        for (let k of Object.keys(actions)) {
           if (typeof actions[k] === 'function') {
             actionMap[k] = (...factoryArgs) => (...args) => dispatch(actions[k](...factoryArgs, ...args))
           }
@@ -43,7 +42,7 @@ export const connect = (selector, actions) => (Component) => {
 
 export const redrawMiddleware = (store) => (next) => (action) => {
   next(action);
-  if (action.redraw && Provider.mithril) {
+  if (action.meta.redraw && Provider.mithril) {
     Provider.mithril.redraw();
   }
 };
