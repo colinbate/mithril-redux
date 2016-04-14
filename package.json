@@ -3,6 +3,7 @@
   "version": "1.0.0-beta.2",
   "description": "Bindings between Mithril and Redux",
   "main": "dist/index.js",
+  "jsnext:main": "index.js",
   "scripts": {
     "prepublish": "gulp js:prod",
     "test": "eslint *.js"

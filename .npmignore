@@ -1,5 +1,6 @@
 node_modules
-src
 gulpfile.js
 .gitignore
 .babelrc
+.editorconfig
+.eslintrc.json
