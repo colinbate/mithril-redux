@@ -1,5 +1,5 @@
 class _Provider {
-  init(store, mithril, Component) {
+  init (store, mithril, Component) {
     this.store = store;
     this.mithril = mithril;
     const comp = typeof Component === 'function' ? new Component() : Component;
@@ -7,41 +7,37 @@ class _Provider {
   }
 }
 
-export const Provider = new _Provider;
+export const Provider = new _Provider();
 
 
-function wrapView(comp, actionMap) {
+function wrapView (comp, actionMap) {
   const origView = comp.view;
   comp.view = (ctrl, ...args) => {
-    let nc = {...ctrl, ...actionMap};
+    const nc = {...ctrl, ...actionMap};
     return origView(nc, ...args);
   };
 }
 
-export const connect = (selector, actions) => (Component) => {
-  return {
-    view (controller, props, children) {
-      const {dispatch, getState} = Provider.store;
-      let actionMap = {};
-      if (typeof actions === 'function') {
-        actionMap = actions(dispatch);
-      } else if (typeof actions === 'object') {
-        const actionKeys = Object.keys(actions);
-        for (let k of actionKeys) {
-          if (typeof actions[k] === 'function') {
-            actionMap[k] = (...factoryArgs) => (...args) => dispatch(actions[k](...factoryArgs, ...args))
-          }
-        }
-      }
-      const state = selector(getState());
-      const comp = typeof Component === 'function' ? new Component() : Component;
-      wrapView(comp, actionMap);
-      return Provider.mithril.component(comp, {dispatch, ...state, ...actionMap}, children);
+export const connect = (selector, actions) => (Component) => ({
+  view (controller, props, children) {
+    const {dispatch, getState} = Provider.store;
+    let actionMap = {};
+    if (typeof actions === 'function') {
+      actionMap = actions(dispatch);
+    } else if (typeof actions === 'object') {
+      const actionKeys = Object.keys(actions);
+      actionMap = actionKeys
+        .filter(k => typeof actions[k] === 'function')
+        .map(k => (...factoryArgs) => (...args) => dispatch(actions[k](...factoryArgs, ...args)));
     }
-  };
-};
+    const state = selector(getState());
+    const comp = typeof Component === 'function' ? new Component() : Component;
+    wrapView(comp, actionMap);
+    return Provider.mithril.component(comp, {dispatch, ...state, ...actionMap}, children);
+  }
+});
 
-export const redrawMiddleware = (store) => (next) => (action) => {
+export const redrawMiddleware = () => (next) => (action) => {
   next(action);
   if (action.redraw && Provider.mithril) {
     Provider.mithril.redraw();
