@@ -1,5 +1,6 @@
-# Mithril Redux
+[![npm version](https://badge.fury.io/js/mithril-redux.svg)](https://badge.fury.io/js/mithril-redux)
 
+# Mithril Redux
 This package provides utilites for working with Redux within a Mithril application. Similar to `react-redux`.
 
 It doesn't alter the redrawing functionality of Mithril, other than providing some basic middleware below. It does not subscribe to the Redux `store`. It generally allows you to continue to work with Mithril as normal, except with replacing your models with the `store`.
