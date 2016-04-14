@@ -39,7 +39,7 @@ export const connect = (selector, actions) => (Component) => ({
 
 export const redrawMiddleware = () => (next) => (action) => {
   next(action);
-  if (action.redraw && Provider.mithril) {
+  if ((action.redraw || (action.meta && action.meta.redraw)) && Provider.mithril) {
     Provider.mithril.redraw();
   }
 };
