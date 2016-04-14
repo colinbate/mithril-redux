@@ -18,6 +18,8 @@ function wrapView (comp, actionMap) {
   };
 }
 
+const dispatchFactory = (creator, dispatch) => (...factoryArgs) => (...args) => dispatch(creator(...factoryArgs, ...args));
+
 export const connect = (selector, actions) => (Component) => ({
   view (controller, props, children) {
     const {dispatch, getState} = Provider.store;
@@ -26,9 +28,10 @@ export const connect = (selector, actions) => (Component) => ({
       actionMap = actions(dispatch);
     } else if (typeof actions === 'object') {
       const actionKeys = Object.keys(actions);
-      for (let k of actionKeys) {
+      let k;
+      for (k of actionKeys) {
         if (typeof actions[k] === 'function') {
-          actionMap[k] = (...factoryArgs) => (...args) => dispatch(actions[k](...factoryArgs, ...args));
+          actionMap[k] = dispatchFactory(actions[k], dispatch);
         }
       }
     }
