@@ -26,9 +26,11 @@ export const connect = (selector, actions) => (Component) => ({
       actionMap = actions(dispatch);
     } else if (typeof actions === 'object') {
       const actionKeys = Object.keys(actions);
-      actionMap = actionKeys
-        .filter(k => typeof actions[k] === 'function')
-        .map(k => (...factoryArgs) => (...args) => dispatch(actions[k](...factoryArgs, ...args)));
+      for (let k of actionKeys) {
+        if (typeof actions[k] === 'function') {
+          actionMap[k] = (...factoryArgs) => (...args) => dispatch(actions[k](...factoryArgs, ...args));
+        }
+      }
     }
     const state = selector(getState());
     const comp = typeof Component === 'function' ? new Component() : Component;
