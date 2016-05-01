@@ -38,7 +38,7 @@ export const connect = (selector, actions) => (Component) => ({
     const state = selector(getState());
     const comp = typeof Component === 'function' ? new Component() : Component;
     wrapView(comp, actionMap);
-    return Provider.mithril.component(comp, {dispatch, ...state, ...actionMap}, children);
+    return Provider.mithril.component(comp, {dispatch, ...state, ...actionMap, ...props}, children);
   }
 });
 
