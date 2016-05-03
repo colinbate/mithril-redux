@@ -1,6 +1,6 @@
 {
   "name": "mithril-redux",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0",
   "description": "Bindings between Mithril and Redux",
   "main": "dist/index.js",
   "jsnext:main": "index.js",
